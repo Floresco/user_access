@@ -22,7 +22,7 @@
                                             :</label>
 
                                         <input type="text" id="userprofil-name" class="form-control"
-                                               name="name" required="required" aria-required="true">
+                                               name="name" required="required" aria-required="true" value="{{$model != null ? $model->name : old('name')}}">
                                     </div>
                                 </div>
                                 <div class="col-6">
@@ -33,7 +33,7 @@
                                             rows="4"
                                             class="form-control"
                                             >
-                                            Bonjour
+                                            {{$model != null ? $model->description : old('description')}}
                                         </textarea>
                                     </div>
                                 </div>
@@ -118,8 +118,12 @@
 
             </div>
 
-
         </div>
+
+{{--        @if(sizeof($user_module) > 0 || (Session::get('user_module') && sizeof()))--}}
+{{--            TODO ON reprend ici--}}
+        @endif
+
         @endsection
 
         @push('js')
@@ -146,12 +150,12 @@
 
                 function uncheckall_line(id) {
 
-                    var pupdate = document.getElementById(id + '_UPDATE').checked;
-                    var pcreate = document.getElementById(id + '_CREATE').checked;
-                    var pdelete = document.getElementById(id + '_DELETE').checked;
-                    var plist = document.getElementById(id + '_LIST').checked;
+                    const pupdate = document.getElementById(id + '_UPDATE').checked;
+                    const pcreate = document.getElementById(id + '_CREATE').checked;
+                    const pdelete = document.getElementById(id + '_DELETE').checked;
+                    const plist = document.getElementById(id + '_LIST').checked;
 
-                    if (pupdate == true && pcreate == true && pdelete == true && plist == true) {
+                    if (pupdate === true && pcreate === true && pdelete === true && plist === true) {
                         document.getElementById(id + '_ALL').checked = true;
                     } else {
                         document.getElementById(id + '_ALL').checked = false;
@@ -166,13 +170,18 @@
                 }
 
                 function checkall_info(status) {
-                    if (status == 1) var new_status = true;
-                    if (status == 0) var new_status = false;
+                    let new_status;
+                    if (status === 1) {
+                        new_status = true;
+                    }
+                    if (status === 0) {
+                        new_status = false;
+                    }
 
-                    var all_element = document.getElementById('module_page').getElementsByTagName('input');
+                    const all_element = document.getElementById('module_page').getElementsByTagName('input');
 
-                    for (var i = 0; i < all_element.length; i++) {
-                        if (all_element[i].type == 'checkbox') {
+                    for (let i = 0; i < all_element.length; i++) {
+                        if (all_element[i].type === 'checkbox') {
                             all_element[i].checked = new_status;
                         }
                     }

@@ -25,7 +25,7 @@ class ProfilController extends BaseController
     {
 
         $user_module = [];
-        $model = new UserProfil;
+        $model = null;
         $access_rights = AccessRight::query()->where('etat', CodeStatus::ETAT_ACTIVE)->get()->all();
 
         $this->title = trans('messages.add_profil_menu');
@@ -37,6 +37,8 @@ class ProfilController extends BaseController
     public function store(Request $request)
     {
         $post = $request->all();
+
+        $user_module = [];
 
         $module_ids_recup = $post['all_module'];
 
@@ -83,6 +85,11 @@ class ProfilController extends BaseController
 
                 if ($test_name != null) {
                     $message = trans('messages.profil_exist');
+                    $user_module = $this->createProfilAccess([
+                       'all_module' => $all_module,
+                       'profil_id' => null,
+                       'user_id' => auth()->user()->id
+                    ]);
                 } else {
                     date_default_timezone_set('UTC');
 
@@ -113,7 +120,7 @@ class ProfilController extends BaseController
             $message = trans('messages.profil_empty');
         }
         \Session::flash('error', $message);
-        return back();
+        return back()->withInput()->with('user_module', $user_module);
     }
 
 
