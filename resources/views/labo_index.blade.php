@@ -1,6 +1,4 @@
-@extends('layout.app')
+@extends('auth.layout.app')
 @section('content')
-    <div>
-        <p>Hello</p>
-    </div>
+    <x-alert />
 @endsection
