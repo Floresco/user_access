@@ -2,6 +2,9 @@
 @php
     $required = \App\Helpers\Utils::required();
     $all_module = '';
+    if (Session::get('user_module')) {
+        $user_module = Session::get('user_module');
+    }
 
 @endphp
 @section('content')
@@ -12,27 +15,34 @@
                 <div class="card">
                     <div class="card-body pt-0" id="page_content1"></div>
                     <div class="card-body pt-0" id="page_content2">
-                        <form id="contact-form" onsubmit="return submit_form()" method="post"
-                              action="{{route('profil.store')}}">
+                        <form id="contact-form" onsubmit="return submit_form()" method="POST"
+                              action="{{ $model != null ? route('profil.update',['profil' => $model->id]) : route('profil.store')}}">
                             @csrf
                             <div class="row">
+                                @if($model != null)
+                                    <input type="hidden" name="_method" value="PUT">
+                                    <input type="hidden" name="key" value="{{$model->id}}">
+                                @endif
                                 <div class="col-6">
                                     <div class="form-group is-valid">
-                                        <label class="form-label">Dénomination Profil <span style="color:red">**</span>
+                                        <label class="form-label" for="name">Dénomination Profil <span
+                                                style="color:red">**</span>
                                             :</label>
 
-                                        <input type="text" id="userprofil-name" class="form-control"
+                                        <input type="text" id="name" class="form-control"
                                                name="name" required="required" aria-required="true"
                                                value="{{$model != null ? $model->name : old('name')}}">
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="form-group">
-                                        <label class="form-label">{{trans('messages.descriptionProfil')}} :</label>
+                                        <label class="form-label"
+                                               for="description">{{trans('messages.descriptionProfil')}} :</label>
                                         <textarea
                                             name="description"
                                             rows="4"
                                             class="form-control"
+                                            id="description"
                                         >
                                             {{$model != null ? $model->description : old('description')}}
                                         </textarea>
@@ -108,11 +118,12 @@
                                 </div>
                             </div>
                             {!! \App\Helpers\Utils::submit_btn() !!}
-                            <?php if (isset($_GET['key'])): ?>
-                            {!! \App\Helpers\Utils::back_btn('profils.index') !!}
-                            <?php else: ?>
-                            {!! \App\Helpers\Utils::reset_btn() !!}
-                            <?php endif; ?>
+                            @if($model && $model->name)
+                                {!! \App\Helpers\Utils::back_btn('profil.index') !!}
+                            @else
+                                {!! \App\Helpers\Utils::reset_btn() !!}
+                            @endif()
+
                         </form>
                     </div>
                 </div>
@@ -121,37 +132,7 @@
 
         </div>
 
-        <?php
-            if (Session::get('user_module')) {
-                $user_module = Session::get('user_module');
-            }
-            print_r($user_module);
-            foreach ($user_module as $info_module) :
-                $update = trim($info_module['pupdate']);
-                $create = trim($info_module['pcreate']);
-                $delete = trim($info_module['pdelete']);
-                $read = trim($info_module['pread']);
-                $id = trim($info_module['access_right_id']);
-
-                if ($create == 1 and $delete == 1 and $read == 1 and $update == 1) {
-                    echo '<script type="application/javascript">
-                        checkone("' . $id . '_ALL");
-                        checkone("' . $id . '_LIST");
-                        checkone("' . $id . '_CREATE");
-                        checkone("' . $id . '_UPDATE");
-                        checkone("' . $id . '_DELETE");
-                </script>';
-                } else {
-                    if ($create == 1) echo '<script type="application/javascript"> checkone("' . $id . '_CREATE") ;</script>';
-                    if ($update == 1) echo '<script type="application/javascript"> checkone("' . $id . '_UPDATE") ;</script>';
-                    if ($delete == 1) echo '<script type="application/javascript"> checkone("' . $id . '_DELETE") ;</script>';
-                    if ($read == 1) echo '<script type="application/javascript"> checkone("' . $id . '_LIST") ;</script>';
-                }
-            endforeach;
-        ?>
-
         @endsection
-
         @push('js')
             <script type="application/javascript">
                 function submit_form() {
@@ -181,18 +162,13 @@
                     const pdelete = document.getElementById(id + '_DELETE').checked;
                     const plist = document.getElementById(id + '_LIST').checked;
 
-                    if (pupdate === true && pcreate === true && pdelete === true && plist === true) {
-                        document.getElementById(id + '_ALL').checked = true;
-                    } else {
-                        document.getElementById(id + '_ALL').checked = false;
-                    }
+                    document.getElementById(id + '_ALL').checked = pupdate === true && pcreate === true && pdelete === true && plist === true;
 
                     handle_btn_status()
 
                 }
 
                 function checkone(id) {
-                    console.log('checked')
                     document.getElementById(id).checked = true;
                 }
 
@@ -226,10 +202,37 @@
                     }
                 }
 
+                function handle_user_module(user_module) {
+                    const user_modules = JSON.parse(user_module);
+                    $.each(user_modules, (index, value) => {
+                        const pupdate = parseInt(value.pupdate.trim());
+                        const pcreate = parseInt(value.pcreate.trim());
+                        const pdelete = parseInt(value.pdelete.trim());
+                        const pread = parseInt(value.pread.trim());
+                        const pid = value.access_right_id.trim();
+
+                        if (pcreate === 1 && pdelete === 1 && pread === 1 && pupdate === 1) {
+                            checkone(pid + '_ALL');
+                            checkone(pid + '_LIST');
+                            checkone(pid + '_CREATE');
+                            checkone(pid + '_UPDATE');
+                            checkone(pid + '_DELETE');
+                        } else {
+                            if (pcreate === 1) checkone(pid + '_CREATE');
+                            if (pupdate === 1) checkone(pid + '_UPDATE');
+                            if (pdelete === 1) checkone(pid + '_DELETE');
+                            if (pread === 1) checkone(pid + '_READ');
+                        }
+                    })
+                    handle_btn_status()
+                }
+
                 window.onload = function () {
 
                     $(document).ready(function () {
                         handle_btn_status()
+                        handle_user_module('@json($user_module)');
+
                     })
                 }
             </script>

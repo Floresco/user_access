@@ -29,7 +29,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('', [ProfilController::class,'store'])->name('profil.store');
         Route::get('/{profil}/edit', [ProfilController::class, 'edit'])->name('profil.edit');
         Route::put('/{profil}', [ProfilController::class, 'update'])->name('profil.update');
-        Route::post('/operation',[ProfilController::class,'operation'])->name('profil.operation');
+        Route::post('/{profil}/operation',[ProfilController::class,'operation'])->name('profil.operation');
     });
 });
 

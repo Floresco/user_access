@@ -1,11 +1,5 @@
-$.ajaxSetup({
-    headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    }
-});
-
 function initSelect2() {
-    $('.select2').each(function() {
+    $('.select2').each(function () {
         $(this).select2({
             allowClear: true,
             theme: 'bootstrap',
@@ -15,7 +9,7 @@ function initSelect2() {
             width: '100%',
         });
 
-        $(this).on('select2:open', function() {
+        $(this).on('select2:open', function () {
             $('.select2-selection__choice__remove').addClass('select2-remove-right');
         });
     });
@@ -79,6 +73,7 @@ function initListDataTable() {
         }*/
     });
 }
+
 initListDataTable();
 
 function initFormDataTable() {
@@ -129,7 +124,7 @@ function initFormDataTable() {
         "searching": false,
         "paging": false,
         "ordering": false,
-        "initComplete": function(settings, json) {
+        "initComplete": function (settings, json) {
             //var api = new $.fn.dataTable.Api( settings );
             var self = $(this);
             // buildMinLineTable(self)
@@ -138,4 +133,17 @@ function initFormDataTable() {
     });
 
 }
+
 initFormDataTable();
+
+
+window.onload = function () {
+
+    $(document).ready(function () {
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+        });
+    })
+}

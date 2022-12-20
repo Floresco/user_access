@@ -25,6 +25,10 @@ class UserProfil extends Model
 
     public function access_rights(): BelongsToMany
     {
-        return $this->belongsToMany(AccessRight::class)->using(ProfilAccess::class);
+        return $this->belongsToMany(AccessRight::class,'profil_access')
+            ->using(ProfilAccess::class)
+            ->as('profil_access')
+            ->withPivot(['pcreate','pread','pupdate','pdelete','created_by','update_by'])
+            ->withTimestamps();
     }
 }

@@ -18,6 +18,7 @@
         <div class="page-content">
             @yield('content')
         </div>
+        @yield('modals')
         @include('layout.includes.footer')
     </div>
 </div>
