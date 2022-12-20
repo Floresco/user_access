@@ -22,7 +22,8 @@
                                             :</label>
 
                                         <input type="text" id="userprofil-name" class="form-control"
-                                               name="name" required="required" aria-required="true" value="{{$model != null ? $model->name : old('name')}}">
+                                               name="name" required="required" aria-required="true"
+                                               value="{{$model != null ? $model->name : old('name')}}">
                                     </div>
                                 </div>
                                 <div class="col-6">
@@ -32,7 +33,7 @@
                                             name="description"
                                             rows="4"
                                             class="form-control"
-                                            >
+                                        >
                                             {{$model != null ? $model->description : old('description')}}
                                         </textarea>
                                     </div>
@@ -120,9 +121,34 @@
 
         </div>
 
-{{--        @if(sizeof($user_module) > 0 || (Session::get('user_module') && sizeof()))--}}
-{{--            TODO ON reprend ici--}}
-        @endif
+        <?php
+            if (Session::get('user_module')) {
+                $user_module = Session::get('user_module');
+            }
+            print_r($user_module);
+            foreach ($user_module as $info_module) :
+                $update = trim($info_module['pupdate']);
+                $create = trim($info_module['pcreate']);
+                $delete = trim($info_module['pdelete']);
+                $read = trim($info_module['pread']);
+                $id = trim($info_module['access_right_id']);
+
+                if ($create == 1 and $delete == 1 and $read == 1 and $update == 1) {
+                    echo '<script type="application/javascript">
+                        checkone("' . $id . '_ALL");
+                        checkone("' . $id . '_LIST");
+                        checkone("' . $id . '_CREATE");
+                        checkone("' . $id . '_UPDATE");
+                        checkone("' . $id . '_DELETE");
+                </script>';
+                } else {
+                    if ($create == 1) echo '<script type="application/javascript"> checkone("' . $id . '_CREATE") ;</script>';
+                    if ($update == 1) echo '<script type="application/javascript"> checkone("' . $id . '_UPDATE") ;</script>';
+                    if ($delete == 1) echo '<script type="application/javascript"> checkone("' . $id . '_DELETE") ;</script>';
+                    if ($read == 1) echo '<script type="application/javascript"> checkone("' . $id . '_LIST") ;</script>';
+                }
+            endforeach;
+        ?>
 
         @endsection
 
@@ -166,6 +192,7 @@
                 }
 
                 function checkone(id) {
+                    console.log('checked')
                     document.getElementById(id).checked = true;
                 }
 

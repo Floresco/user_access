@@ -124,8 +124,7 @@ class ProfilController extends BaseController
     }
 
 
-    private
-    function createProfilAccess(array $data, bool $action_save = false)
+    private function createProfilAccess(array $data, bool $action_save = false)
     {
         $user_module = [];
         $array_all_module = explode(';', $data['all_module']);
