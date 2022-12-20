@@ -59,15 +59,15 @@ $manage_admin = Utils::have_access("manage_admin");
                 <?php if ($test[0] == 1) : ?>
 
             <li class="nav-item">
-                <a href="dashboard-analytics.html" class="nav-link" data-key="t-add-profil">
+                <a href="{{route('user.create')}}" class="nav-link" data-key="t-add-user">
                     {{trans('messages.add_admin')}} </a>
             </li>
             <?php endif ?>
 
                 <?php if ($test[1] == 1 or $test[2] == 1 or $test[3] == 1) : ?>
             <li class="nav-item">
-                <a href="dashboard-job.html" class="nav-link"><span
-                        data-key="t-list-profil">{{trans('messages.all_admin')}}</span>
+                <a href="{{route('user.index')}}" class="nav-link"><span
+                        data-key="t-list-user">{{trans('messages.all_admin')}}</span>
                 </a>
             </li>
             <?php endif ?>

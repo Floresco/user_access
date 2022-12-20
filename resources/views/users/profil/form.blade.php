@@ -15,7 +15,7 @@
                 <div class="card">
                     <div class="card-body pt-0" id="page_content1"></div>
                     <div class="card-body pt-0" id="page_content2">
-                        <form id="contact-form" onsubmit="return submit_form()" method="POST"
+                        <form id="contact-form" onsubmit="return submit_form()" method="POST" autocomplete="off"
                               action="{{ $model != null ? route('profil.update',['profil' => $model->id]) : route('profil.store')}}">
                             @csrf
                             <div class="row">

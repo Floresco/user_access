@@ -4,6 +4,7 @@ use App\Http\Controllers\auth\AuthController;
 use App\Http\Controllers\dashboard\DashboardController;
 use App\Http\Controllers\LaboController;
 use App\Http\Controllers\users\ProfilController;
+use App\Http\Controllers\users\UserController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -31,6 +32,16 @@ Route::middleware(['auth'])->group(function () {
         Route::put('/{profil}', [ProfilController::class, 'update'])->name('profil.update');
         Route::post('/{profil}/operation',[ProfilController::class,'operation'])->name('profil.operation');
     });
+
+    Route::prefix('/users')->group(function () {
+        Route::get('', [UserController::class, 'index'])->name('user.index');
+        Route::get('/create', [UserController::class,'create'])->name('user.create');
+        Route::post('', [UserController::class,'store'])->name('user.store');
+        Route::get('/{user}/edit', [UserController::class, 'edit'])->name('user.edit');
+        Route::put('/{user}', [UserController::class, 'update'])->name('user.update');
+        Route::post('/{user}/operation',[UserController::class,'operation'])->name('user.operation');
+    });
+
 });
 
 Route::get('/labo', [LaboController::class, 'index'])->name('labo.index');
