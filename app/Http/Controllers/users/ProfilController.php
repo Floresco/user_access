@@ -17,7 +17,7 @@ class ProfilController extends BaseController
 
         $profils = UserProfil::query()
             ->whereIn('etat', [CodeStatus::ETAT_ACTIVE, CodeStatus::ETAT_INACTIVE])
-            ->where('name','<>',CodeStatus::USER_PROFIL_SUPER_ADMIN)
+            ->where('name', '<>', CodeStatus::USER_PROFIL_SUPER_ADMIN)
             ->get()->all();
 
         $this->title = trans('messages.liste_profil_menu');
@@ -170,8 +170,7 @@ class ProfilController extends BaseController
     }
 
 
-    public
-    function edit(UserProfil $profil)
+    public function edit(UserProfil $profil)
     {
         $user_module = ProfilAccess::query()
             ->where('user_profil_id', $profil->id)
@@ -288,20 +287,22 @@ class ProfilController extends BaseController
     {
         $post = $request->all();
         $message = trans('messages.update_error');
-        $profil->etat = $post['operation'];
+        switch ($post['operation']) {
+            case 1:
+                $profil->etat = $post['operation'];
+                $message = trans('messages.active_profil_success');
+                break;
+            case 2:
+                $profil->etat = $post['operation'];
+                $message = trans('messages.desactive_profil_success');
+                break;
+            case 3:
+                $profil->etat = $post['operation'];
+                $message = trans('messages.delete_profil_success');
+                $profil->access_rights()->update(['etat' => CodeStatus::ETAT_DELETE]);
+                break;
+        }
         if ($profil->save()) {
-            switch ($post['operation']) {
-                case 1:
-                    $message = trans('messages.active_profil_success');
-                    break;
-                case 2:
-                    $message = trans('messages.desactive_profil_success');
-                    break;
-                case 3:
-                    $message = trans('messages.delete_profil_success');
-                    $profil->access_rights()->update(['etat' => CodeStatus::ETAT_DELETE]);
-                    break;
-            }
             \Session::flash('success', $message);
             return redirect()->route('profil.index');
         }

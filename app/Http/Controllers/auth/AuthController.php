@@ -19,7 +19,7 @@ class AuthController extends BaseController
     {
         $validated = $request->validated();
 
-        if (\Auth::attempt(['username' => $validated['username'], 'password' => $validated['password']])) {
+        if (\Auth::attempt(['phone' => $validated['phone_email'], 'password' => $validated['password']]) || \Auth::attempt(['email' => $validated['phone_email'], 'password' => $validated['password']])) {
             Session::flash('success', trans('messages.welocome'));
             return redirect()->route('dashboard');
         } else {

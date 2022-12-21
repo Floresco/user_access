@@ -11,4 +11,6 @@ class CodeStatus
     const USER_PROFIL_SUPER_ADMIN = 'Super Admin';
 
 //
+    const USER_VERIFIED = 10;
+    const USER_UNVERIFIED = 20;
 }

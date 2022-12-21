@@ -1,9 +1,6 @@
 function initSelect2() {
     $('.select2').each(function () {
         $(this).select2({
-            allowClear: true,
-            theme: 'bootstrap',
-            placeholder: '-- message.choose --',
             searchInputPlaceholder: 'message.search',
             dropdownParent: $(this).parent(),
             width: '100%',
@@ -146,5 +143,32 @@ window.onload = function () {
             }
         });
 
+        $('.is-phone').keyup(function () {
+            if (isNaN(this.value)) {
+                this.value = this.defaultValue;
+            } else {
+                this.defaultValue = this.value;
+            }
+        });
+
+
+        $('.is-number').each(function () {
+            $(this).keyup(function () {
+                if (isNaN(this.value)) {
+                    this.value = this.defaultValue;
+                } else {
+                    this.defaultValue = this.value;
+                }
+            });
+        })
+
+        $('.nobr').keyup(function () {
+            let data = this.value
+            if ($.trim(data) !== "") {
+                this.value = data.replace(/\n/g, ", ")
+            } else {
+                this.value = ""
+            }
+        })
     })
 }

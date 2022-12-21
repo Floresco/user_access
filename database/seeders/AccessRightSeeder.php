@@ -25,9 +25,11 @@ class AccessRightSeeder extends Seeder
         ];
 
         \Schema::disableForeignKeyConstraints();
-        AccessRight::query()->truncate();
+//        AccessRight::query()->truncate();
         foreach ($data as $access_right) {
-            AccessRight::query()->create($access_right);
+            $test_wording = AccessRight::query()->where('wording', $access_right['wording'])->first();
+            if ($test_wording != null)
+                AccessRight::query()->create($access_right);
         }
         \Schema::enableForeignKeyConstraints();
     }

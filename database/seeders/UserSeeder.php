@@ -21,7 +21,7 @@ class UserSeeder extends Seeder
 
         $data = [
             'user1' => [
-                'username' => 'super.admin',
+                'phone' => '11223344',
                 'email' => 'super.admin@project.com',
                 'password' => \Hash::make('Azerty123'),
                 'status' => 10,

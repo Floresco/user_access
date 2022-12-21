@@ -26,20 +26,22 @@ Route::middleware(['auth'])->group(function () {
 
     Route::prefix('/profils')->group(function () {
         Route::get('', [ProfilController::class, 'index'])->name('profil.index');
-        Route::get('/create', [ProfilController::class,'create'])->name('profil.create');
-        Route::post('', [ProfilController::class,'store'])->name('profil.store');
+        Route::get('/create', [ProfilController::class, 'create'])->name('profil.create');
+        Route::post('', [ProfilController::class, 'store'])->name('profil.store');
         Route::get('/{profil}/edit', [ProfilController::class, 'edit'])->name('profil.edit');
         Route::put('/{profil}', [ProfilController::class, 'update'])->name('profil.update');
-        Route::post('/{profil}/operation',[ProfilController::class,'operation'])->name('profil.operation');
+        Route::post('/{profil}/operation', [ProfilController::class, 'operation'])->name('profil.operation');
     });
 
     Route::prefix('/users')->group(function () {
         Route::get('', [UserController::class, 'index'])->name('user.index');
-        Route::get('/create', [UserController::class,'create'])->name('user.create');
-        Route::post('', [UserController::class,'store'])->name('user.store');
+        Route::get('/create', [UserController::class, 'create'])->name('user.create');
+        Route::post('', [UserController::class, 'store'])->name('user.store');
         Route::get('/{user}/edit', [UserController::class, 'edit'])->name('user.edit');
         Route::put('/{user}', [UserController::class, 'update'])->name('user.update');
-        Route::post('/{user}/operation',[UserController::class,'operation'])->name('user.operation');
+        Route::get('/{user}/edit-password', [UserController::class, 'editPassword'])->name('user.edit-password');
+        Route::put('/{user}/reset', [UserController::class, 'resetPassword'])->name('user.password-reset');
+        Route::post('/{user}/operation', [UserController::class, 'operation'])->name('user.operation');
     });
 
 });

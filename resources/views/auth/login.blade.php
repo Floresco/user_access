@@ -1,5 +1,7 @@
 @extends('auth.layout.app')
-
+@php
+    $required = \App\Helpers\Utils::required();
+@endphp
 @section('content')
     <!-- auth page content -->
     <div class="auth-page-content">
@@ -20,17 +22,19 @@
                                     <x-alert/>
                                     @csrf
                                     <div class="mb-3">
-                                        <label for="username" class="form-label">Username <span
-                                                class="text-danger">*</span></label>
-                                        <input type="text" class="form-control" id="username" name="username"
-                                               placeholder="Enter username" value="super.admin" required>
+                                        <label for="phone_email"
+                                               class="form-label">{{ucfirst(trans('messages.phone_email'))}}
+                                            {!! $required !!}</label>
+                                        <input type="text" class="form-control" id="phone_email" name="phone_email"
+                                               placeholder="{{trans('messages.phone_email')}}" value="11223344"
+                                               required>
                                         <div class="invalid-feedback">
                                             Please enter username
                                         </div>
                                     </div>
 
                                     <div class="mb-3">
-                                        <label class="form-label" for="password-input">Password</label>
+                                        <label class="form-label" for="password-input">{{trans('messages.password')}}</label>
                                         <div class="position-relative auth-pass-inputgroup">
                                             <input type="password" class="form-control pe-5 password-input"
                                                    onpaste="return false" placeholder="Enter password"
@@ -42,7 +46,7 @@
                                                 type="button" id="password-addon"><i
                                                     class="ri-eye-fill align-middle"></i></button>
                                             <div class="invalid-feedback">
-                                                Please enter password
+                                                {{trans('messages.phone_email_hint')}}
                                             </div>
                                         </div>
                                     </div>

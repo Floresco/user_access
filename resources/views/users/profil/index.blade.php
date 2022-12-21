@@ -3,6 +3,7 @@
 @section('content')
     <div class="container-fluid">
         <div class="row mt-4">
+            <x-alert/>
             @if(sizeof($profils) > 0)
                 <table
                     class="table table-striped table-bordered table-hover table-responsive-lg is-search-table  align-middle"
@@ -29,10 +30,8 @@
                             </th>
 
                             <th scope="row" style="width: 1%;">
-                                @if($profil->users_count > 0)
-                                    <a
-                                        href="javascript:void(0)"
-                                    >
+                                @if($profil->users->count() > 0)
+                                    <a href="javascript:void(0)">
                                         <i class="bx bx-check-double text-muted position-relative text-md"></i>
                                     </a>
                                 @else
@@ -54,7 +53,6 @@
                                             data-bs-toggle="modal"
                                             data-bs-target="#operationModal"
                                             onclick="active_member('{{$profil->id}}')"
-
                                         >
                                             <i class="bx bx-check-double text-warning position-relative text-md"></i>
                                         </a>
@@ -69,13 +67,13 @@
                                     href="javascript:void(0)"
                                     title="{{trans('messages.delete')}}"
 
-                                    @if($profil->users_count > 0)
+                                    @if($profil->users->count() == 0)
                                         data-bs-toggle="modal"
                                     data-bs-target="#operationModal"
                                     onclick="delete_member('{{$profil->id}}')"
                                     @endif
                                 >
-                                    <i @class(['bx','bx-trash','text-danger' => $profil->users_count == 0,'text-muted' => $profil->users_count > 0,'position-relative','text-md'])></i>
+                                    <i @class(['bx','bx-trash','text-danger' => $profil->users->count() == 0,'text-muted' => $profil->users->count() > 0,'position-relative','text-md'])></i>
                                 </a>
 
                             </th>

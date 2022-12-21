@@ -6,6 +6,7 @@ namespace App\Models\users;
 use App\Traits\CreatedUpdatedBy;
 use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -20,7 +21,7 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'username',
+        'phone',
         'email',
         'password',
         'status',
@@ -46,9 +47,12 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime'
     ];
 
-    public function userProfil() {
+    public function userProfil(): BelongsTo
+    {
         return $this->belongsTo(UserProfil::class);
     }
 }

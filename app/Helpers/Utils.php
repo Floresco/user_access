@@ -37,7 +37,7 @@ class Utils
     public static function emptyContent()
     {
         return '<div class="alert alert-danger alert-dismissible alert-solid alert-label-icon fade show" role="alert">
-    <i class="ri-error-warning-line label-icon"></i><strong>' . trans('messages.list_empty') . '</strong>
+    <i class="ri-error-warning-line label-icon"></i><strong>' . trans('messages.liste_empty') . '</strong>
     <button type="button" class="btn-close btn-close-white" data-bs-dismiss="alert" aria-label="Close"></button>
 </div>';
     }
@@ -52,9 +52,9 @@ class Utils
         return '<button type="reset" name="Reset" class="btn btn-sm btn-danger bg-gradient-dark float-end" style="margin-left:10px;margin-right:20px">'.trans('messages.resetbutton').'</button>';
     }
 
-    public static function back_btn(string $url): string
+    public static function back_btn(string $url, array $params = []): string
     {
-        return '<a href="' . route($url) . '" class="btn btn-sm btn-info bg-gradient-dark float-end" style="margin-left:10px;margin-right:20px">' . trans('messages.back') . '</a>';
+        return '<a href="' . route($url, $params) . '" class="btn btn-sm btn-info bg-gradient-dark float-end" style="margin-left:10px;margin-right:20px">' . trans('messages.back') . '</a>';
     }
 
     public static function submit_btn(): string

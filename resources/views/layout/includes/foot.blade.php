@@ -15,7 +15,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script>
-<script type='text/javascript' src='https://cdn.jsdelivr.net/npm/toastify-js'></script>
+<script src='https://cdn.jsdelivr.net/npm/toastify-js'></script>
 <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
 
 {{--<script src="{{asset('assets/js/plugins.js')}}"></script>--}}
@@ -23,15 +23,9 @@
 <!-- apexcharts -->
 <script src="{{asset('assets/libs/apexcharts/apexcharts.min.js')}}"></script>
 
-<!-- Vector map-->
-<script src="{{asset('assets/libs/jsvectormap/js/jsvectormap.min.js')}}"></script>
-<script src="{{asset('assets/libs/jsvectormap/maps/world-merc.js')}}"></script>
 
 <!--Swiper slider js-->
 <script src="{{asset('assets/libs/swiper/swiper-bundle.min.js')}}"></script>
-
-<!-- Dashboard init -->
-<script src="{{asset('assets/js/pages/dashboard-ecommerce.init.js')}}"></script>
 
 <!-- App js -->
 <script src="{{asset('assets/js/layout.js')}}"></script>

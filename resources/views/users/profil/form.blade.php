@@ -118,7 +118,7 @@
                                 </div>
                             </div>
                             {!! \App\Helpers\Utils::submit_btn() !!}
-                            @if($model && $model->name)
+                            @if($model && $model->id)
                                 {!! \App\Helpers\Utils::back_btn('profil.index') !!}
                             @else
                                 {!! \App\Helpers\Utils::reset_btn() !!}
