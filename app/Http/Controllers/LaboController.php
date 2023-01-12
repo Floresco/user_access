@@ -7,8 +7,8 @@ class LaboController extends BaseController
 
     public function index()
     {
-        $this->title = 'Hehehe';
+        $this->setTitle('Hehehe');
 
-        return view('labo_index', ['title' => $this->title]);
+        return view('labo_index', ['title' => $this->getTitle()]);
     }
 }

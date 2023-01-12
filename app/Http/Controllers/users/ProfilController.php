@@ -3,43 +3,61 @@
 namespace App\Http\Controllers\users;
 
 use App\Helpers\CodeStatus;
+use App\Helpers\Utils;
 use App\Http\Controllers\BaseController;
 use App\Models\users\AccessRight;
 use App\Models\users\ProfilAccess;
 use App\Models\users\UserProfil;
+use App\Traits\SelectMenu;
 use Illuminate\Http\Request;
-use function GuzzleHttp\Promise\all;
 
 class ProfilController extends BaseController
 {
+    use SelectMenu;
+
+    public function __construct()
+    {
+        $this->setSelectMenu('PROFIL');
+    }
+
     public function index()
     {
+        Utils::Rule("manage_profil", "READ");
+        $this->select_smenu = "READ_PROFIL";
+        $this->select_menu();
 
         $profils = UserProfil::query()
             ->whereIn('etat', [CodeStatus::ETAT_ACTIVE, CodeStatus::ETAT_INACTIVE])
             ->where('name', '<>', CodeStatus::USER_PROFIL_SUPER_ADMIN)
             ->get()->all();
 
-        $this->title = trans('messages.liste_profil_menu');
+        $this->setTitle(trans('messages.liste_profil_menu'));
 
-        return view('users.profil.index', ['title' => $this->title, 'profils' => $profils]);
+        return view('users.profil.index', ['title' => $this->getTitle(), 'profils' => $profils]);
     }
 
     public function create()
     {
+        Utils::Rule("manage_profil", "CREATE");
+        $this->select_smenu = "ADD_PROFIL";
+        $this->select_menu();
 
         $user_module = [];
         $model = null;
         $access_rights = AccessRight::query()->where('etat', CodeStatus::ETAT_ACTIVE)->get()->all();
 
-        $this->title = trans('messages.add_profil_menu');
+        $this->setTitle(trans('messages.add_profil_menu'));
 
-        return view('users.profil.form', ['title' => $this->title, 'model' => $model, 'user_module' => $user_module, 'access_rights' => $access_rights]);
+        return view('users.profil.form', ['title' => $this->getTitle(), 'model' => $model, 'user_module' => $user_module, 'access_rights' => $access_rights]);
 
     }
 
     public function store(Request $request)
     {
+        Utils::Rule("manage_profil", "CREATE");
+        $this->select_smenu = "ADD_PROFIL";
+        $this->select_menu();
+
         $post = $request->all();
 //        TODO 1. Mettre en place la validation
 
@@ -172,6 +190,10 @@ class ProfilController extends BaseController
 
     public function edit(UserProfil $profil)
     {
+        Utils::Rule("manage_profil", "UPDATE");
+        $this->select_smenu = "READ_PROFIL";
+        $this->select_menu();
+
         $user_module = ProfilAccess::query()
             ->where('user_profil_id', $profil->id)
             ->where('etat', CodeStatus::ETAT_ACTIVE)
@@ -181,13 +203,17 @@ class ProfilController extends BaseController
             ->get()->all();
         $model = $profil;
 
-        $this->title = trans('messages.update_information') . ":" . $profil->name;
+        $this->setTitle(trans('messages.update_information') . ":" . $profil->name);
 
-        return view('users.profil.form', ['title' => $this->title, 'model' => $model, 'user_module' => $user_module, 'access_rights' => $access_rights]);
+        return view('users.profil.form', ['title' => $this->getTitle(), 'model' => $model, 'user_module' => $user_module, 'access_rights' => $access_rights]);
     }
 
     public function update(UserProfil $profil, Request $request)
     {
+        Utils::Rule("manage_profil", "UPDATE");
+        $this->select_smenu = "READ_PROFIL";
+        $this->select_menu();
+
         $post = $request->all();
 //        TODO 1. Mettre en place la validation
 
@@ -285,6 +311,8 @@ class ProfilController extends BaseController
 
     public function operation(UserProfil $profil, Request $request)
     {
+        Utils::Rule("manage_profil", "DELETE");
+
         $post = $request->all();
         $message = trans('messages.update_error');
         switch ($post['operation']) {
