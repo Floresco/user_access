@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use App\Helpers\CodeStatus;
 use App\Models\users\User;
 use App\Models\users\UserProfil;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
 class UserSeeder extends Seeder
@@ -17,7 +16,7 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        $super_admin_profil = UserProfil::query()->where('name',CodeStatus::USER_PROFIL_SUPER_ADMIN)->first();
+        $super_admin_profil = UserProfil::query()->where('name', CodeStatus::USER_PROFIL_SUPER_ADMIN)->first();
 
         $data = [
             'user1' => [
@@ -34,9 +33,11 @@ class UserSeeder extends Seeder
         ];
 
         \Schema::disableForeignKeyConstraints();
-        User::query()->truncate();
+        //User::query()->truncate();
         foreach ($data as $user) {
-            User::query()->create($user);
+            $test_user = User::query()->where('phone', $user['phone'])->where('email', $user['email'])->first();
+            if ($test_user == null)
+                User::query()->create($user);
         }
         \Schema::enableForeignKeyConstraints();
     }

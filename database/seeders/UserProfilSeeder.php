@@ -33,9 +33,11 @@ class UserProfilSeeder extends Seeder
         ];
 
         \Schema::disableForeignKeyConstraints();
-        UserProfil::query()->truncate();
-        foreach ($data as $user) {
-            UserProfil::query()->create($user);
+        //UserProfil::query()->truncate();
+        foreach ($data as $userProfil) {
+            $test_profil = UserProfil::query()->where('name', $userProfil['name'])->first();
+            if ($test_profil == null)
+                UserProfil::query()->create($userProfil);
         }
         \Schema::enableForeignKeyConstraints();
     }

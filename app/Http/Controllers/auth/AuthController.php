@@ -12,7 +12,7 @@ class AuthController extends BaseController
 
     public function showLoginForm()
     {
-        return view('auth.login');
+        return view('auth.login',['title' => trans('messages.login')]);
     }
 
     public function login(LoginRequest $request)

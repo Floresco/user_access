@@ -13,6 +13,7 @@ return new class extends Migration {
     public function up()
     {
         Schema::create('profil_access', function (Blueprint $table) {
+            $table->uuid('id')->primary();
             $table->foreignUuid('user_profil_id')->constrained()->cascadeOnUpdate()->restrictOnDelete();
             $table->foreignUuid('access_right_id')->constrained()->cascadeOnUpdate()->restrictOnDelete();
             $table->smallInteger('pcreate');
@@ -22,7 +23,6 @@ return new class extends Migration {
             $table->smallInteger('etat')->default(\App\Helpers\CodeStatus::ETAT_ACTIVE);
             $table->uuid('created_by');
             $table->uuid('updated_by')->nullable();
-            $table->rememberToken();
             $table->timestamps();
         });
     }

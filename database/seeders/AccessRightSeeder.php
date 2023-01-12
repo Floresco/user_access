@@ -16,19 +16,23 @@ class AccessRightSeeder extends Seeder
     public function run()
     {
         $data = [
+
+            [
+                'wording' => 'manage_dashboard',
+            ],
             [
                 'wording' => 'manage_admin',
             ],
             [
                 'wording' => 'manage_profil',
-            ],
+            ]
         ];
 
         \Schema::disableForeignKeyConstraints();
 //        AccessRight::query()->truncate();
         foreach ($data as $access_right) {
             $test_wording = AccessRight::query()->where('wording', $access_right['wording'])->first();
-            if ($test_wording != null)
+            if ($test_wording == null)
                 AccessRight::query()->create($access_right);
         }
         \Schema::enableForeignKeyConstraints();

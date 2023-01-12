@@ -221,8 +221,9 @@
                             if (pcreate === 1) checkone(pid + '_CREATE');
                             if (pupdate === 1) checkone(pid + '_UPDATE');
                             if (pdelete === 1) checkone(pid + '_DELETE');
-                            if (pread === 1) checkone(pid + '_READ');
+                            if (pread === 1) checkone(pid + '_LIST');
                         }
+
                     })
                     handle_btn_status()
                 }

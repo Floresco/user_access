@@ -46,4 +46,12 @@ Route::middleware(['auth'])->group(function () {
 
 });
 
+Route::get('404', function () {
+    return view('error.404', ['title' => trans('messages.404')]);
+});
+
 Route::get('/labo', [LaboController::class, 'index'])->name('labo.index');
+
+Route::any('{url}', function () {
+    return redirect('/404');
+})->where('url', '.*');

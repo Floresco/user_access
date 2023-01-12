@@ -156,6 +156,7 @@ return [
     'm_all' => 'Tous',
     'm_module' => 'MODULE',
     /* start fonctionnalité/module access */
+    'manage_dashboard' => 'Tableau de Bord',
     'manage_admin' => 'Gestion des utilisateurs MANAGER',
     'manage_profil' => 'Gestion des profils',
     'manage_parameter_language' => 'Paramètre système: Langue',
@@ -834,4 +835,8 @@ return [
     'notification_not_saved' => 'Erreur lors de l\'enregistrement de la notification',
     'Incorrect username or password' => 'Nom d\'utilisateur ou mot de passe incorrect',
     'duplicate_account' => 'Le numero de compte {account} existe déja dans le système',
+    '404' => 'Page non trouvée',
+    '404_text' => 'Désolée, page non trouvée 😭',
+    '404_hint' => 'La page que vous recherchez n\'est pas disponible !',
+    'back_to_home' => 'Retourner à l\'accueil',
 ];

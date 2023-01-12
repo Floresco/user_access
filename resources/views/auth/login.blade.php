@@ -26,7 +26,7 @@
                                                class="form-label">{{ucfirst(trans('messages.phone_email'))}}
                                             {!! $required !!}</label>
                                         <input type="text" class="form-control" id="phone_email" name="phone_email"
-                                               placeholder="{{trans('messages.phone_email')}}" value="11223344"
+                                               placeholder="{{trans('messages.phone_email')}}" value=""
                                                required>
                                         <div class="invalid-feedback">
                                             Please enter username
@@ -39,7 +39,7 @@
                                             <input type="password" class="form-control pe-5 password-input"
                                                    onpaste="return false" placeholder="Enter password"
                                                    id="password-input" name="password" aria-describedby="passwordInput"
-                                                   pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" value="Azerty123"
+                                                   pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" value=""
                                                    required>
                                             <button
                                                 class="btn btn-link position-absolute end-0 top-0 text-decoration-none text-muted password-addon"
