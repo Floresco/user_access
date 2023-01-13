@@ -42,11 +42,5 @@ class AuthServiceProvider extends ServiceProvider
                 return Utils::RuleV2($access_right['wording'], $type);
             });
         }
-
-        /*
-        Gate::define('manage_dashboard', function (User $user, string $type) {
-            return Utils::RuleV2('manage_dashboard',$type);
-        });
-        */
     }
 }
