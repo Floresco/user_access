@@ -3,15 +3,17 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use App\Traits\CreatedUpdatedBy;
+use Illuminate\Database\Eloquent\Concerns\HasUuids;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-use Silber\Bouncer\Database\HasRolesAndAbilities;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, HasRolesAndAbilities;
+    use HasApiTokens, HasFactory, Notifiable, HasUuids, CreatedUpdatedBy;
 
     /**
      * The attributes that are mass assignable.
@@ -19,9 +21,13 @@ class User extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'name',
+        'phone',
         'email',
         'password',
+        'status',
+        'firstname',
+        'lastname',
+        'gender'
     ];
 
     /**
@@ -41,21 +47,12 @@ class User extends Authenticatable
      */
     protected $casts = [
         'email_verified_at' => 'datetime',
+        'created_at' => 'datetime',
+        'updated_at' => 'datetime'
     ];
 
-    public function scopeWhereCan($query, $ability)
+    public function userProfil(): BelongsTo
     {
-        $query->where(function ($query) use ($ability) {
-            // direct
-            $query->whereHas('abilities', function ($query) use ($ability) {
-                $query->byName($ability);
-            });
-            // through roles
-            $query->orWhereHas('roles', function ($query) use ($ability) {
-                $query->whereHas('abilities', function ($query) use ($ability) {
-                    $query->byName($ability);
-                });
-            });
-        });
+        return $this->belongsTo(UserProfil::class);
     }
 }
