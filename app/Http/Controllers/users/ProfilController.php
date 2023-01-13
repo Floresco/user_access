@@ -22,7 +22,7 @@ class ProfilController extends BaseController
 
     public function index()
     {
-        Utils::Rule("manage_profil", "READ");
+        $this->authorize("manage_profil", "READ");
         $this->select_smenu = "READ_PROFIL";
         $this->select_menu();
 
@@ -38,7 +38,7 @@ class ProfilController extends BaseController
 
     public function create()
     {
-        Utils::Rule("manage_profil", "CREATE");
+        $this->authorize("manage_profil", "CREATE");
         $this->select_smenu = "ADD_PROFIL";
         $this->select_menu();
 
@@ -54,7 +54,7 @@ class ProfilController extends BaseController
 
     public function store(Request $request)
     {
-        Utils::Rule("manage_profil", "CREATE");
+        $this->authorize("manage_profil", "CREATE");
         $this->select_smenu = "ADD_PROFIL";
         $this->select_menu();
 
@@ -190,7 +190,7 @@ class ProfilController extends BaseController
 
     public function edit(UserProfil $profil)
     {
-        Utils::Rule("manage_profil", "UPDATE");
+        $this->authorize("manage_profil", "UPDATE");
         $this->select_smenu = "READ_PROFIL";
         $this->select_menu();
 
@@ -210,7 +210,7 @@ class ProfilController extends BaseController
 
     public function update(UserProfil $profil, Request $request)
     {
-        Utils::Rule("manage_profil", "UPDATE");
+        $this->authorize("manage_profil", "UPDATE");
         $this->select_smenu = "READ_PROFIL";
         $this->select_menu();
 
@@ -311,7 +311,7 @@ class ProfilController extends BaseController
 
     public function operation(UserProfil $profil, Request $request)
     {
-        Utils::Rule("manage_profil", "DELETE");
+        $this->authorize("manage_profil", "DELETE");
 
         $post = $request->all();
         $message = trans('messages.update_error');

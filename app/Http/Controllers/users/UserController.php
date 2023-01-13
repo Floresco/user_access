@@ -19,7 +19,7 @@ class UserController extends BaseController
 
     public function index()
     {
-        Utils::Rule("manage_admin", "READ");
+        $this->authorize("manage_admin", "READ");
         $this->select_smenu = "READ_MUSER";
         $this->select_menu();
 
@@ -35,7 +35,7 @@ class UserController extends BaseController
 
     public function create()
     {
-        Utils::Rule("manage_admin", "CREATE");
+        $this->authorize("manage_admin", "CREATE");
         $this->select_smenu = "ADD_MUSER";
         $this->select_menu();
 
@@ -56,7 +56,7 @@ class UserController extends BaseController
      */
     public function store(UserRequest $request)
     {
-        Utils::Rule("manage_admin", "CREATE");
+        $this->authorize("manage_admin", "CREATE");
         $this->select_smenu = "ADD_MUSER";
         $this->select_menu();
 
@@ -90,7 +90,7 @@ class UserController extends BaseController
 
     public function edit(User $user)
     {
-        Utils::Rule("manage_admin", "UPDATE");
+        $this->authorize("manage_admin", "UPDATE");
         $this->select_smenu = "READ_MUSER";
         $this->select_menu();
 
@@ -107,7 +107,7 @@ class UserController extends BaseController
 
     public function update(User $user, UserRequest $request)
     {
-        Utils::Rule("manage_admin", "UPDATE");
+        $this->authorize("manage_admin", "UPDATE");
         $this->select_smenu = "READ_MUSER";
         $this->select_menu();
 
@@ -142,7 +142,7 @@ class UserController extends BaseController
 
     public function editPassword(User $user)
     {
-        Utils::Rule("manage_admin", "UPDATE");
+        $this->authorize("manage_admin", "UPDATE");
         $this->select_smenu = "READ_MUSER";
         $this->select_menu();
 
@@ -154,7 +154,7 @@ class UserController extends BaseController
 
     public function resetPassword(ResetPasswordRequest $request, User $user)
     {
-        Utils::Rule("manage_admin", "UPDATE");
+        $this->authorize("manage_admin", "UPDATE");
         $this->select_smenu = "READ_MUSER";
         $this->select_menu();
 
@@ -172,7 +172,7 @@ class UserController extends BaseController
 
     public function operation(User $user, Request $request)
     {
-        Utils::Rule("manage_admin", "DELETE");
+        $this->authorize("manage_admin", "DELETE");
 
         $post = $request->all();
         $message = trans('messages.update_error');

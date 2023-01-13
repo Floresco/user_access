@@ -2,13 +2,6 @@
 
 namespace App\Models\users;
 
-use App\Traits\CreatedUpdatedBy;
-use Illuminate\Database\Eloquent\Concerns\HasUuids;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\Pivot;
-
-class ProfilAccess extends Pivot
+class ProfilAccess extends \App\Models\ProfilAccess
 {
-    use HasFactory, HasUuids, CreatedUpdatedBy;
-
 }

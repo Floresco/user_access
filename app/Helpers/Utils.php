@@ -13,57 +13,100 @@ class Utils
 {
     public static function Rule(string $wording_access_right, $type_operation)
     {
-
-        try {
-            $user = auth()->user();
-            if ($user) {
-                $user_profil_id = $user->user_profil_id;
-                $user_parent_id = $user->user_parent_id;
-                $plus = "";
-                $position = 0;
-                if ($user_parent_id == 0) {
-                    $position = 1;
-                } else {
-                    $query = ProfilAccess::query()
-                        ->join('access_rights', 'access_rights.id', '=', 'profil_access.access_right_id')
-                        ->join('user_profils', 'user_profils.id', '=', 'profil_access.user_profil_id')
-                        ->where([
-                            ['user_profils.id', '=', $user_profil_id],
-                            ['access_rights.wording', '=', $wording_access_right],
-                            ['profil_access.etat', '=', CodeStatus::ETAT_ACTIVE]
-                        ]);
-                    if ($type_operation == 'CREATE') {
-                        $query->where('profil_access.pcreate', '=', CodeStatus::ETAT_ACTIVE);
-                    }
-                    if ($type_operation == 'UPDATE') {
-                        $query->where('profil_access.pupdate', '=', CodeStatus::ETAT_ACTIVE);
-                    }
-                    if ($type_operation == 'DELETE') {
-                        $query->where('profil_access.pdelete', '=', CodeStatus::ETAT_ACTIVE);
-                    }
-                    if ($type_operation == 'READ') {
-                        $query->where('profil_access.pread', '=', CodeStatus::ETAT_ACTIVE);
-                    }
-                    if ($type_operation == 'ALL') {
-                        $query->where([
-                            ['profil_access.pcreate', '=', CodeStatus::ETAT_ACTIVE],
-                            ['profil_access.pupdate', '=', CodeStatus::ETAT_ACTIVE],
-                            ['profil_access.pdelete', '=', CodeStatus::ETAT_ACTIVE],
-                            ['profil_access.pread', '=', CodeStatus::ETAT_ACTIVE],
-                        ]);
-                    }
-                    $profil_access = $query->get()->toArray();
-                    $position = sizeof($profil_access);
-                }
-                if ($position != 1) {
-                    return redirect()->to('/404')->send();
-                }
+        $user = auth()->user();
+        if ($user) {
+            $user_profil_id = $user->user_profil_id;
+            $user_parent_id = $user->user_parent_id;
+            $plus = "";
+            $position = 0;
+            if ($user_parent_id == 0) {
+                $position = 1;
             } else {
-                return redirect()->route('login')->send();
+                $query = ProfilAccess::query()
+                    ->join('access_rights', 'access_rights.id', '=', 'profil_access.access_right_id')
+                    ->join('user_profils', 'user_profils.id', '=', 'profil_access.user_profil_id')
+                    ->where([
+                        ['user_profils.id', '=', $user_profil_id],
+                        ['access_rights.wording', '=', $wording_access_right],
+                        ['profil_access.etat', '=', CodeStatus::ETAT_ACTIVE]
+                    ]);
+                if ($type_operation == 'CREATE') {
+                    $query->where('profil_access.pcreate', '=', CodeStatus::ETAT_ACTIVE);
+                }
+                if ($type_operation == 'UPDATE') {
+                    $query->where('profil_access.pupdate', '=', CodeStatus::ETAT_ACTIVE);
+                }
+                if ($type_operation == 'DELETE') {
+                    $query->where('profil_access.pdelete', '=', CodeStatus::ETAT_ACTIVE);
+                }
+                if ($type_operation == 'READ') {
+                    $query->where('profil_access.pread', '=', CodeStatus::ETAT_ACTIVE);
+                }
+                if ($type_operation == 'ALL') {
+                    $query->where([
+                        ['profil_access.pcreate', '=', CodeStatus::ETAT_ACTIVE],
+                        ['profil_access.pupdate', '=', CodeStatus::ETAT_ACTIVE],
+                        ['profil_access.pdelete', '=', CodeStatus::ETAT_ACTIVE],
+                        ['profil_access.pread', '=', CodeStatus::ETAT_ACTIVE],
+                    ]);
+                }
+                $profil_access = $query->get()->toArray();
+                $position = sizeof($profil_access);
             }
-        } catch (\Exception $e) {
-            return redirect()->route('login')->send();
+            if ($position != 1) {
+                abort(403);
+            }
+        } else {
+            abort(401);
         }
+    }
+
+    public static function RuleV2(string $wording_access_right, $type_operation): bool
+    {
+        $return = false;
+        $user = auth()->user();
+        if ($user) {
+            $user_profil_id = $user->user_profil_id;
+            $user_parent_id = $user->user_parent_id;
+            if ($user_parent_id == 0) {
+                $position = 1;
+            } else {
+                $query = ProfilAccess::query()
+                    ->join('access_rights', 'access_rights.id', '=', 'profil_access.access_right_id')
+                    ->join('user_profils', 'user_profils.id', '=', 'profil_access.user_profil_id')
+                    ->where([
+                        ['user_profils.id', '=', $user_profil_id],
+                        ['access_rights.wording', '=', $wording_access_right],
+                        ['profil_access.etat', '=', CodeStatus::ETAT_ACTIVE]
+                    ]);
+                if ($type_operation == 'CREATE') {
+                    $query->where('profil_access.pcreate', '=', CodeStatus::ETAT_ACTIVE);
+                }
+                if ($type_operation == 'UPDATE') {
+                    $query->where('profil_access.pupdate', '=', CodeStatus::ETAT_ACTIVE);
+                }
+                if ($type_operation == 'DELETE') {
+                    $query->where('profil_access.pdelete', '=', CodeStatus::ETAT_ACTIVE);
+                }
+                if ($type_operation == 'READ') {
+                    $query->where('profil_access.pread', '=', CodeStatus::ETAT_ACTIVE);
+                }
+                if ($type_operation == 'ALL') {
+                    $query->where([
+                        ['profil_access.pcreate', '=', CodeStatus::ETAT_ACTIVE],
+                        ['profil_access.pupdate', '=', CodeStatus::ETAT_ACTIVE],
+                        ['profil_access.pdelete', '=', CodeStatus::ETAT_ACTIVE],
+                        ['profil_access.pread', '=', CodeStatus::ETAT_ACTIVE],
+                    ]);
+                }
+                $profil_access = $query->get()->toArray();
+                $position = sizeof($profil_access);
+            }
+            if ($position == 1) {
+                $return = true;
+            }
+        }
+        return $return;
     }
 
     public static function have_access(string $wording_access_right): string|RedirectResponse

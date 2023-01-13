@@ -4,8 +4,8 @@ namespace App\Http\Controllers\dashboard;
 
 use App\Helpers\Utils;
 use App\Http\Controllers\BaseController;
-use App\Http\Controllers\Controller;
 use App\Traits\SelectMenu;
+use Illuminate\Auth\Access\AuthorizationException;
 
 class DashboardController extends BaseController
 {
@@ -15,9 +15,12 @@ class DashboardController extends BaseController
         $this->setSelectMenu('BOARD');
     }
 
+    /**
+     * @throws AuthorizationException
+     */
     public function index()
     {
-        Utils::Rule('manage_dashboard', 'ALL');
+        $this->authorize('manage_dashboard', 'READ');
         $this->setSelectSmenu("READ_DASHBOARD");
         $this->select_menu();
 
