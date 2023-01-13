@@ -16,3 +16,6 @@ yarn-error.log
 /.fleet
 /.idea
 /.vscode
+/resources/views/datatable_design.blade.php
+/resources/views/labo_index.blade.php
+/resources/views/welcome.blade.php
