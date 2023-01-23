@@ -14,7 +14,10 @@ return new class extends Migration {
     {
         Schema::table('users', function (Blueprint $table) {
             $table->foreignUuid('user_profil_id')->constrained()->cascadeOnUpdate()->restrictOnDelete();
-            $table->foreignUuid('user_parent_id')->nullable()->constrained()->cascadeOnUpdate()->nullOnDelete();
+            $table->foreignUuid('user_parent_id')
+                ->nullable()
+                ->references('id')->on('users')
+                ->cascadeOnUpdate()->nullOnDelete();
             $table->string('firstname');
             $table->string('lastname');
             $table->string('gender', 2)->nullable();
